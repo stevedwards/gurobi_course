@@ -42,36 +42,9 @@ def max_flow(nodes, arcs, capacity):
 
 def min_cut(nodes, arcs, capacity):
 
-    # Create optimization model
-    m = gp.Model('cut')
-    m.ModelSense = 1
+    # TODO
 
-    # Create variables
-    remove = m.addVars(arcs, vtype=GRB.BINARY, obj=capacity, name="r_")
-    connect = m.addVars((i for i in nodes if i not in ("s", "t")), name="z_", vtype=GRB.BINARY)
-
-    # Arc-capacity constraints
-    for (i, j) in arcs:
-
-        if i == "s":
-            m.addConstr(remove["s", j] + connect[j] >= 1)
-        
-        elif j == "t":
-            m.addConstr(remove[i, "t"] - connect[i] >= 0)
-        
-        else:
-            m.addConstr(remove[i, j] + connect[j] - connect[i] >= 0)
-
-    # Compute optimal solution
-    m.optimize()
-
-    # Print solution
-    if m.status == GRB.OPTIMAL:
-        solution = m.getAttr('x', remove)
-        print('\nOptimal cuts')
-        for i, j in arcs:
-            if solution[i, j] > 0:
-                print('%s -> %s: %g' % (i, j, capacity[i, j]))
+    return None
 
 
 if __name__ == "__main__":
